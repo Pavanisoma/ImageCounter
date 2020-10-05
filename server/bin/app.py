@@ -3,16 +3,21 @@ from flask import Flask, request, jsonify
 from flask_mongoengine import MongoEngine
 from flask_cors import CORS
 
+
+#DEBUG = True
+
 app = Flask(__name__)
 CORS(app)
 #CORS(app, resources=r'/*', allow_headers='Content-Type')
+
 
 app.config['MONGODB_SETTINGS'] = {
     'db': 'score',
     'host': 'mongodb://user:testpassword@cluster0-shard-00-00.octrg.mongodb.net:27017,cluster0-shard-00-01.octrg.mongodb.net:27017,cluster0-shard-00-02.octrg.mongodb.net:27017/score?ssl=true&replicaSet=atlas-10c7j0-shard-0&authSource=admin'
 }
+
+
 db = MongoEngine(app)
-# CORS(app)
 
 class User(db.Document):
     score1 = db.StringField()
@@ -25,7 +30,6 @@ class User(db.Document):
                 "score3": self.score3,
                 "score4": self.score4
                 }
-
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -48,5 +52,8 @@ def query_records():
                     score4=str(record['score4']))
         user.save()
         return jsonify(user.to_json())
+
+
+
 if __name__ == '__main__':
     app.run()

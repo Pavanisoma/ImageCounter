@@ -1,36 +1,28 @@
 <template>
   <div class="hello">
-    <!-- <table class="table table-hover">
-          <tbody>
-            <tr v-for="(book, index) in scores" :key="index">
-              <td>{{ book.score1 }}</td>
-              <td>{{ book.score2 }}</td>
-            </tr>
-          </tbody>
-    </table> -->
     <ul>
-    <li><img alt="Vue logo" src="../assets/logo.png" width="50" height="50"></li>
+    <li><img alt="Vue logo" src="../assets/image01.jpeg" width="175" height="175"></li>
     <li><p>Score</p></li>
     <li><p>{{ptr1}}</p></li>
     <li><button @click="ptr1 = increment(ptr1)">+1</button></li>
     <li><button @click="ptr1 = decrement(ptr1)">-1</button></li>
     </ul>
     <ul>
-    <li><img alt="Vue logo" src="../assets/logo.png"  width="50" height="50"></li>
+    <li><img alt="Vue logo" src="../assets/image02.jpg"  width="175" height="175"></li>
     <li><p>Score</p></li>
     <li><p>{{ptr2}}</p></li>
     <li><button @click="ptr2 = increment(ptr2)">+1</button></li>
     <li><button @click="ptr2 = decrement(ptr2)">-1</button></li>
     </ul>
     <ul>
-    <li><img alt="Vue logo" src="../assets/logo.png"  width="50" height="50"></li>
+    <li><img alt="Vue logo" src="../assets/image03.jpeg"  width="175" height="175"></li>
     <li><p>Score</p></li>
     <li><p>{{ptr3}}</p></li>
     <li><button @click="ptr3 = increment(ptr3)">+1</button></li>
     <li><button @click="ptr3 = decrement(ptr3)">-1</button></li>
     </ul>
     <ul>
-    <li><img alt="Vue logo" src="../assets/logo.png"  width="50" height="50"></li>
+    <li><img alt="Vue logo" src="../assets/image04.jpg"  width="175" height="175"></li>
     <li><p>Score</p></li>
     <li><p>{{ptr4}}</p></li>
     <li><button @click="ptr4 = increment(ptr4)">+1</button></li>
@@ -45,7 +37,6 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      scores: [],
       ptr1: 0,
       ptr2: 0,
       ptr3: 0,
