@@ -10,14 +10,14 @@ Both Server and client containers are hosted in public docker hub
 
 2. docker run -d —name client -p 8081:8080 pavanidocid/counterclient:final
 
-3. Open your browser to http://localhost:8081 and you should see the app.
+3. Open your browser to http://localhost:8081 and you should see the app
 
 
 
 ### Features:
 
 
-1.Able to upvate or downvote the image score.
+1.Able to upvate or downvote the image score
 
 
 2. Retrieve image score when application is running
