@@ -4,7 +4,7 @@
 Both Server and client containers are hosted in public docker hub
 
 
-###Steps:
+### Steps:
 
 1. docker run -d —name server -p 5000:5000 pavanidocid/counterserver:final
 
@@ -14,7 +14,9 @@ Both Server and client containers are hosted in public docker hub
 
 
 
-Features:
+### Features:
+
+
 1.Able to upvate or downvote the image score.
 
 
