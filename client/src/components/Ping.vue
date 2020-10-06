@@ -1,33 +1,80 @@
 <template>
-  <div class="hello">
-    <ul>
-    <li><img alt="Vue logo" src="../assets/image01.jpeg" width="175" height="175"></li>
-    <li><p>Score</p></li>
-    <li><p>{{ptr1}}</p></li>
-    <li><button @click="ptr1 = increment(ptr1)">+1</button></li>
-    <li><button @click="ptr1 = decrement(ptr1)">-1</button></li>
-    </ul>
-    <ul>
-    <li><img alt="Vue logo" src="../assets/image02.jpg"  width="175" height="175"></li>
-    <li><p>Score</p></li>
-    <li><p>{{ptr2}}</p></li>
-    <li><button @click="ptr2 = increment(ptr2)">+1</button></li>
-    <li><button @click="ptr2 = decrement(ptr2)">-1</button></li>
-    </ul>
-    <ul>
-    <li><img alt="Vue logo" src="../assets/image03.jpeg"  width="175" height="175"></li>
-    <li><p>Score</p></li>
-    <li><p>{{ptr3}}</p></li>
-    <li><button @click="ptr3 = increment(ptr3)">+1</button></li>
-    <li><button @click="ptr3 = decrement(ptr3)">-1</button></li>
-    </ul>
-    <ul>
-    <li><img alt="Vue logo" src="../assets/image04.jpg"  width="175" height="175"></li>
-    <li><p>Score</p></li>
-    <li><p>{{ptr4}}</p></li>
-    <li><button @click="ptr4 = increment(ptr4)">+1</button></li>
-    <li><button @click="ptr4 = decrement(ptr4)">-1</button></li>
-    </ul>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-10">
+        <h1>Image Scoring Application</h1>
+        <hr><br><br>
+        <button type="button" class="btn btn-success btn-sm" v-b-modal.image-modal>
+        Add Image</button>
+        <br><br>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Image ID</th>
+              <th scope="col">Image</th>
+              <th scope="col">Score</th>
+              <th scope="col">Upvote</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="score in scores" :key="score._id">
+              <td>{{ score.imageid }}</td>
+              <td><img v-bind:src="'' + score.url" width="50" height="50"/> </td>
+              <td>{{ score.count }}</td>
+              <td>
+                <div class="btn-group" role="group">
+                  <button @click="score.count = increment(score.count, score.imageid)">
+                  Upvote</button>
+                  <button @click="score.count = decrement(score.count, score.imageid)">
+                  Downvote</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <b-modal ref="addImageModal"
+            id="image-modal"
+            title="Add a new image"
+            hide-footer>
+      <b-form @submit="onSubmit" @reset="onReset" class="w-100">
+      <b-form-group id="form-title-group"
+                    label="Image ID:"
+                    label-for="form-title-input">
+          <b-form-input id="form-title-input"
+                        type="text"
+                        v-model="addImageForm.imageid"
+                        required
+                        placeholder="Enter ID">
+          </b-form-input>
+        </b-form-group>
+        <b-form-group id="form-url-group"
+                      label="URL:"
+                      label-for="form-url-input">
+            <b-form-input id="form-url-input"
+                          type="text"
+                          v-model="addImageForm.url"
+                          required
+                          placeholder="Enter URL">
+            </b-form-input>
+          </b-form-group>
+        <b-form-group id="form-score-group"
+                    label="Score:"
+                    label-for="form-score-input">
+          <b-form-input id="form-score-input"
+                        type="number"
+                        v-model="addImageForm.count"
+                        required
+                        placeholder="Enter Score">
+          </b-form-input>
+        </b-form-group>
+        <b-button-group>
+          <b-button type="submit" variant="primary">Submit</b-button>
+        </b-button-group>
+      </b-form>
+    </b-modal>
   </div>
 </template>
 
@@ -37,42 +84,55 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      ptr1: 0,
-      ptr2: 0,
-      ptr3: 0,
-      ptr4: 0,
+      scores: [],
+      addImageForm: {
+        imageid: '',
+        url: '',
+        count: 0,
+      },
     };
   },
   methods: {
-    increment(counter) {
+    increment(counter, imageid) {
+      this.updateScore(imageid, parseInt(counter, 10) + 1);
       return counter + 1;
     },
-    decrement(counter) {
-      return counter - 1;
+    decrement(counter, imageid) {
+      this.updateScore(imageid, parseInt(counter, 10) - 1);
+      return parseInt(counter, 10) - 1;
     },
     // send get request during intialization of app.
     getScore() {
       const path = 'http://localhost:5000/';
       axios.get(path)
         .then((res) => {
-          this.ptr1 = parseInt(res.data.score1, 10);
-          this.ptr2 = parseInt(res.data.score2, 10);
-          this.ptr3 = parseInt(res.data.score3, 10);
-          this.ptr4 = parseInt(res.data.score4, 10);
+          this.scores = res.data;
+          console.log(this.scores);
         })
         .catch((error) => {
           console.error(error);
         });
     },
-
-    addscore() {
+    updateScore(imageid, count) {
       const payload = {
-        score1: this.ptr1,
-        score2: this.ptr2,
-        score3: this.ptr3,
-        score4: this.ptr4,
+        imageid,
+        count,
       };
       console.log(payload);
+      const path = 'http://localhost:5000/';
+      axios({
+        method: 'put',
+        url: path,
+        data: payload,
+      })
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    addImage(payload) {
       const path = 'http://localhost:5000/';
       axios({
         method: 'post',
@@ -81,24 +141,38 @@ export default {
       })
         .then((result) => {
           console.log(result);
-          this.ptr1 = parseInt(result.data.score1, 10);
-          this.ptr2 = parseInt(result.data.score2, 10);
-          this.ptr3 = parseInt(result.data.score3, 10);
-          this.ptr4 = parseInt(result.data.score4, 10);
+          this.getScore();
         })
         .catch((error) => {
           console.log(error);
+          this.getScore();
         });
     },
+    initForm() {
+      this.addImageForm.imageid = '';
+      this.addImageForm.url = '';
+      this.addImageForm.count = 0;
+    },
+    onSubmit(evt) {
+      evt.preventDefault();
+      this.$refs.addImageModal.hide();
+      const payload = {
+        imageid: this.addImageForm.imageid,
+        url: this.addImageForm.url,
+        count: this.addImageForm.count,
+      };
+      this.addImage(payload);
+      this.initForm();
+    },
+    onReset(evt) {
+      evt.preventDefault();
+      this.$refs.addImageModal.hide();
+      this.initForm();
+    },
   },
-
   created() {
     console.log('ONE TIME ONLY!!');
     this.getScore();
-  },
-  updated() {
-    console.log('for every click');
-    this.addscore();
   },
 };
 </script>
