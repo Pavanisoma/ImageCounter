@@ -2,10 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-10">
-        <h1>Image Scoring Application</h1>
-        <button v-b-modal.image-modal>
-        Add Image</button>
-        <br><br>
+        <h1>Image Scoring Application</h1>       
         <table class="table table-hover">
           <thead>
             <tr>
@@ -34,60 +31,19 @@
         </table>
       </div>
     </div>
-    <b-modal ref="addImageModal"
-            id="image-modal"
-            title="Add a new image"
-            hide-footer>
-      <b-form @submit="onSubmit" @reset="onReset" class="w-100">
-      <b-form-group id="form-title-group"
-                    label="Image ID:"
-                    label-for="form-title-input">
-          <b-form-input id="form-title-input"
-                        type="text"
-                        v-model="addImageForm.imageid"
-                        required
-                        placeholder="Enter ID">
-          </b-form-input>
-        </b-form-group>
-        <b-form-group id="form-url-group"
-                      label="URL:"
-                      label-for="form-url-input">
-            <b-form-input id="form-url-input"
-                          type="text"
-                          v-model="addImageForm.url"
-                          required
-                          placeholder="Enter URL">
-            </b-form-input>
-          </b-form-group>
-        <b-form-group id="form-score-group"
-                    label="Score:"
-                    label-for="form-score-input">
-          <b-form-input id="form-score-input"
-                        type="number"
-                        v-model="addImageForm.count"
-                        required
-                        placeholder="Enter Score">
-          </b-form-input>
-        </b-form-group>
-        <b-button-group>
-          <b-button type="submit" variant="primary">Submit</b-button>
-        </b-button-group>
-      </b-form>
-    </b-modal>
   </div>
 </template>
 
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import axios from 'axios';
+import axios from "axios";
 
 @Component
 export default class HelloWorld extends Vue {
   scores! : any[];
   addImageForm! : any;
-  //addImageForm: any;
-//export default {
+  /* eslint-disable */
   data() {
     return {
       scores: [],
