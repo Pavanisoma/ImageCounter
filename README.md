@@ -1,7 +1,9 @@
-# ImageCounter
+# ImageCounter(VueJS/TypeScript/Flask/MongoDB)
+
 
 
 Both Server and client containers are hosted in public docker hub
+
 
 
 ### Steps:
